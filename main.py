@@ -3,14 +3,16 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
+from ui_file import Ui_MainWindow1
+from ui_file1 import Ui_MainWindow2
 
 
-class Main2(QMainWindow):
+class Main2(QMainWindow, Ui_MainWindow2):
     def __init__(self, exe):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.exe = exe
-        self.connection = sqlite3.connect("coffee.db")
+        self.connection = sqlite3.connect("data\coffee.db")
         self.pushButton.clicked.connect(self.add)
         self.pushButton_2.clicked.connect(self.change)
 
@@ -53,13 +55,13 @@ class Main2(QMainWindow):
         self.exe.show()
 
 
-class Main1(QMainWindow):
+class Main1(QMainWindow, Ui_MainWindow1):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.exe = Main2(self)
         self.pushButton.clicked.connect(self.obr)
-        self.connection = sqlite3.connect("coffee.db")
+        self.connection = sqlite3.connect("data\coffee.db")
         res = self.connection.cursor().execute('SELECT * FROM coffee').fetchall()
         self.tableWidget.setColumnCount(7)
         self.columns = ['ID', 'name_of_sort', 'roasting', 'ground_or_in_grains', 'taste_description', 'price',
